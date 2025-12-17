@@ -316,15 +316,77 @@ function preventGalleryImageDownload() {
             return false;
         }, false);
         
-        // 모바일에서 길게 누르기 방지
+        // 아이폰에서 길게 누르기 방지 (touchstart)
+        let touchStartTime = 0;
         img.addEventListener('touchstart', function(event) {
+            touchStartTime = Date.now();
+            // 멀티터치 방지
             if (event.touches.length > 1) {
+                event.preventDefault();
+                return false;
+            }
+        }, { passive: false });
+        
+        // 아이폰에서 길게 누르기 감지 및 방지 (touchend)
+        img.addEventListener('touchend', function(event) {
+            const touchDuration = Date.now() - touchStartTime;
+            // 200ms 이상 길게 누르면 클릭으로 처리하지 않음
+            if (touchDuration > 200) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        }, { passive: false });
+        
+        // touchmove로 길게 누르기 방지
+        img.addEventListener('touchmove', function(event) {
+            // 터치가 움직이면 길게 누르기로 인식하지 않도록
+            touchStartTime = 0;
+        }, { passive: false });
+        
+        // 포인터 이벤트로 길게 누르기 방지 (iOS 13+)
+        img.addEventListener('pointerdown', function(event) {
+            if (event.pointerType === 'touch') {
+                // 터치 포인터인 경우 기본 동작 방지
                 event.preventDefault();
             }
         }, { passive: false });
         
         // 이미지 속성 설정
         img.setAttribute('draggable', 'false');
+        
+        // CSS 스타일 강제 적용
+        img.style.webkitTouchCallout = 'none';
+        img.style.webkitUserSelect = 'none';
+        img.style.userSelect = 'none';
+        img.style.pointerEvents = 'auto';
+    });
+    
+    // 갤러리 아이템 자체에도 이벤트 방지
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        // 아이폰에서 길게 누르기 방지
+        let itemTouchStartTime = 0;
+        item.addEventListener('touchstart', function(event) {
+            itemTouchStartTime = Date.now();
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        item.addEventListener('touchend', function(event) {
+            const touchDuration = Date.now() - itemTouchStartTime;
+            if (touchDuration > 200) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        }, { passive: false });
+        
+        item.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
     });
     
     // 갤러리 영역 전체 우클릭 방지
@@ -334,6 +396,24 @@ function preventGalleryImageDownload() {
             event.preventDefault();
             return false;
         }, false);
+        
+        // 갤러리 그리드에서도 길게 누르기 방지
+        let gridTouchStartTime = 0;
+        galleryGrid.addEventListener('touchstart', function(event) {
+            gridTouchStartTime = Date.now();
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        galleryGrid.addEventListener('touchend', function(event) {
+            const touchDuration = Date.now() - gridTouchStartTime;
+            if (touchDuration > 200) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        }, { passive: false });
     }
 }
 
@@ -360,6 +440,8 @@ function showMoreGallery() {
         if (fadeOverlay) {
             fadeOverlay.classList.add('hidden');
         }
+        // 새로 표시된 이미지에도 보호 적용
+        preventGalleryImageDownload();
     } else {
         // 다시 숨기기 (접기 → 더보기)
         const allItems = document.querySelectorAll('.gallery-item');
@@ -516,7 +598,61 @@ function preventImageCapture(modal, modalImg) {
             event.preventDefault();
             return false;
         }, false);
+        
+        // 아이폰에서 길게 누르기 방지
+        let modalTouchStartTime = 0;
+        modalImg.addEventListener('touchstart', function(event) {
+            modalTouchStartTime = Date.now();
+            if (event.touches.length > 1) {
+                event.preventDefault();
+                return false;
+            }
+        }, { passive: false });
+        
+        modalImg.addEventListener('touchend', function(event) {
+            const touchDuration = Date.now() - modalTouchStartTime;
+            // 200ms 이상 길게 누르면 방지
+            if (touchDuration > 200) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        }, { passive: false });
+        
+        modalImg.addEventListener('touchmove', function(event) {
+            modalTouchStartTime = 0;
+        }, { passive: false });
+        
+        // 포인터 이벤트로 길게 누르기 방지 (iOS 13+)
+        modalImg.addEventListener('pointerdown', function(event) {
+            if (event.pointerType === 'touch') {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        // CSS 스타일 강제 적용
+        modalImg.style.webkitTouchCallout = 'none';
+        modalImg.style.webkitUserSelect = 'none';
+        modalImg.style.userSelect = 'none';
     }
+    
+    // 모달 전체에서도 길게 누르기 방지
+    let modalTouchStartTime = 0;
+    modal.addEventListener('touchstart', function(event) {
+        modalTouchStartTime = Date.now();
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+    
+    modal.addEventListener('touchend', function(event) {
+        const touchDuration = Date.now() - modalTouchStartTime;
+        if (touchDuration > 200) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        }
+    }, { passive: false });
     
     // 키보드 단축키 방지 (F12, Ctrl+S, Ctrl+P 등)
     modal.addEventListener('keydown', function(event) {
