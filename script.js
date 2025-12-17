@@ -290,6 +290,102 @@ function initGallery() {
 // 갤러리 이미지 다운로드 방지 함수
 function preventGalleryImageDownload() {
     const galleryImages = document.querySelectorAll('.gallery-item img');
+    const overlays = document.querySelectorAll('.gallery-image-overlay');
+    
+    // 오버레이에 이벤트 처리 (이미지 위에 투명 레이어로 터치 가로채기)
+    overlays.forEach((overlay, index) => {
+        const galleryItem = overlay.closest('.gallery-item');
+        if (!galleryItem) return;
+        
+        let touchStartTime = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isLongPress = false;
+        let longPressTimer = null;
+        
+        // touchstart - 터치 시작
+        overlay.addEventListener('touchstart', function(event) {
+            touchStartTime = Date.now();
+            const touch = event.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            isLongPress = false;
+            
+            // 멀티터치 방지
+            if (event.touches.length > 1) {
+                event.preventDefault();
+                return false;
+            }
+            
+            // 길게 누르기 타이머 (300ms 후)
+            longPressTimer = setTimeout(function() {
+                isLongPress = true;
+                event.preventDefault();
+                event.stopPropagation();
+                // 진동으로 피드백 (지원되는 경우)
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }, 300);
+        }, { passive: false });
+        
+        // touchmove - 터치 이동 시 길게 누르기 취소
+        overlay.addEventListener('touchmove', function(event) {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            
+            const touch = event.touches[0];
+            const deltaX = Math.abs(touch.clientX - touchStartX);
+            const deltaY = Math.abs(touch.clientY - touchStartY);
+            
+            // 10px 이상 움직이면 길게 누르기 취소
+            if (deltaX > 10 || deltaY > 10) {
+                isLongPress = false;
+            }
+        }, { passive: false });
+        
+        // touchend - 터치 종료
+        overlay.addEventListener('touchend', function(event) {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            
+            const touchDuration = Date.now() - touchStartTime;
+            
+            // 길게 누르기로 판단되면 이벤트 차단
+            if (isLongPress || touchDuration > 300) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+            
+            // 짧은 터치(클릭)는 부모 요소의 onclick으로 전달
+            if (touchDuration < 300 && !isLongPress) {
+                const clickEvent = new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
+                galleryItem.dispatchEvent(clickEvent);
+            }
+        }, { passive: false });
+        
+        // contextmenu 방지
+        overlay.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
+        
+        // 포인터 이벤트 방지
+        overlay.addEventListener('pointerdown', function(event) {
+            if (event.pointerType === 'touch') {
+                event.preventDefault();
+            }
+        }, { passive: false });
+    });
     
     galleryImages.forEach(img => {
         // 우클릭 방지
@@ -316,42 +412,6 @@ function preventGalleryImageDownload() {
             return false;
         }, false);
         
-        // 아이폰에서 길게 누르기 방지 (touchstart)
-        let touchStartTime = 0;
-        img.addEventListener('touchstart', function(event) {
-            touchStartTime = Date.now();
-            // 멀티터치 방지
-            if (event.touches.length > 1) {
-                event.preventDefault();
-                return false;
-            }
-        }, { passive: false });
-        
-        // 아이폰에서 길게 누르기 감지 및 방지 (touchend)
-        img.addEventListener('touchend', function(event) {
-            const touchDuration = Date.now() - touchStartTime;
-            // 200ms 이상 길게 누르면 클릭으로 처리하지 않음
-            if (touchDuration > 200) {
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-        }, { passive: false });
-        
-        // touchmove로 길게 누르기 방지
-        img.addEventListener('touchmove', function(event) {
-            // 터치가 움직이면 길게 누르기로 인식하지 않도록
-            touchStartTime = 0;
-        }, { passive: false });
-        
-        // 포인터 이벤트로 길게 누르기 방지 (iOS 13+)
-        img.addEventListener('pointerdown', function(event) {
-            if (event.pointerType === 'touch') {
-                // 터치 포인터인 경우 기본 동작 방지
-                event.preventDefault();
-            }
-        }, { passive: false });
-        
         // 이미지 속성 설정
         img.setAttribute('draggable', 'false');
         
@@ -359,7 +419,7 @@ function preventGalleryImageDownload() {
         img.style.webkitTouchCallout = 'none';
         img.style.webkitUserSelect = 'none';
         img.style.userSelect = 'none';
-        img.style.pointerEvents = 'auto';
+        img.style.pointerEvents = 'none';
     });
     
     // 갤러리 아이템 자체에도 이벤트 방지
