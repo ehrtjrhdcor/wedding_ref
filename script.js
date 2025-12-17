@@ -37,7 +37,36 @@ document.addEventListener('DOMContentLoaded', function() {
     initCountdown();
     initGallery();
     initNaverMap();
+    preventGlobalImageDownload();
 });
+
+// 전역 이미지 다운로드 방지
+function preventGlobalImageDownload() {
+    // 모든 이미지에 기본 보호 적용
+    document.addEventListener('contextmenu', function(event) {
+        // 갤러리나 모달 영역의 이미지인 경우에만 방지
+        if (event.target.tagName === 'IMG' && 
+            (event.target.closest('.gallery-item') || 
+             event.target.closest('.modal') ||
+             event.target.id === 'modalImage')) {
+            event.preventDefault();
+            return false;
+        }
+    }, false);
+    
+    // 키보드 단축키로 이미지 저장 방지
+    document.addEventListener('keydown', function(event) {
+        // Ctrl+S (저장) 방지
+        if (event.ctrlKey && event.key === 's') {
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.closest('.gallery') || 
+                document.getElementById('imageModal')?.style.display === 'block') {
+                event.preventDefault();
+                return false;
+            }
+        }
+    }, false);
+}
 
 // 배경음악 초기화
 function initBackgroundMusic() {
@@ -253,6 +282,59 @@ function initGallery() {
     hiddenItems.forEach(item => {
         item.style.display = 'none';
     });
+    
+    // 갤러리 이미지 다운로드 방지
+    preventGalleryImageDownload();
+}
+
+// 갤러리 이미지 다운로드 방지 함수
+function preventGalleryImageDownload() {
+    const galleryImages = document.querySelectorAll('.gallery-item img');
+    
+    galleryImages.forEach(img => {
+        // 우클릭 방지
+        img.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
+        
+        // 드래그 방지
+        img.addEventListener('dragstart', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
+        
+        // 이미지 선택 방지
+        img.addEventListener('selectstart', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
+        
+        // 복사 방지
+        img.addEventListener('copy', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
+        
+        // 모바일에서 길게 누르기 방지
+        img.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        // 이미지 속성 설정
+        img.setAttribute('draggable', 'false');
+    });
+    
+    // 갤러리 영역 전체 우클릭 방지
+    const galleryGrid = document.getElementById('galleryGrid');
+    if (galleryGrid) {
+        galleryGrid.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            return false;
+        }, false);
+    }
 }
 
 // 갤러리 더보기
