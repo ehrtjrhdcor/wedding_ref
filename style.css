@@ -499,11 +499,13 @@ h2::after {
     -moz-user-drag: none !important;
     -o-user-drag: none !important;
     user-drag: none !important;
-    pointer-events: none;
+    pointer-events: auto;
     -webkit-touch-callout: none !important;
     -webkit-tap-highlight-color: transparent !important;
     touch-action: manipulation;
     -webkit-user-modify: read-only;
+    position: relative;
+    z-index: 1;
 }
 
 .gallery-image-overlay {
@@ -512,13 +514,14 @@ h2::after {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 2;
     background: transparent;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     user-select: none !important;
     touch-action: manipulation;
     cursor: pointer;
+    pointer-events: auto;
 }
 
 .gallery-item-hidden {

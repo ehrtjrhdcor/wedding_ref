@@ -314,19 +314,21 @@ function preventGalleryImageDownload() {
             // 멀티터치 방지
             if (event.touches.length > 1) {
                 event.preventDefault();
+                event.stopPropagation();
                 return false;
             }
             
-            // 길게 누르기 타이머 (300ms 후)
+            // 즉시 이벤트 전파 차단 (이미지로 전달되지 않도록)
+            event.stopPropagation();
+            
+            // 길게 누르기 타이머 (100ms 후 - 매우 짧게 설정)
             longPressTimer = setTimeout(function() {
                 isLongPress = true;
-                event.preventDefault();
-                event.stopPropagation();
                 // 진동으로 피드백 (지원되는 경우)
                 if (navigator.vibrate) {
                     navigator.vibrate(50);
                 }
-            }, 300);
+            }, 100);
         }, { passive: false });
         
         // touchmove - 터치 이동 시 길게 누르기 취소
@@ -355,21 +357,31 @@ function preventGalleryImageDownload() {
             
             const touchDuration = Date.now() - touchStartTime;
             
-            // 길게 누르기로 판단되면 이벤트 차단
-            if (isLongPress || touchDuration > 300) {
+            // 길게 누르기로 판단되면 이벤트 완전 차단
+            if (isLongPress || touchDuration > 100) {
                 event.preventDefault();
                 event.stopPropagation();
+                event.stopImmediatePropagation();
                 return false;
             }
             
-            // 짧은 터치(클릭)는 부모 요소의 onclick으로 전달
-            if (touchDuration < 300 && !isLongPress) {
-                const clickEvent = new MouseEvent('click', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window
-                });
-                galleryItem.dispatchEvent(clickEvent);
+            // 매우 짧은 터치(클릭)만 부모 요소의 onclick으로 전달
+            if (touchDuration < 100 && !isLongPress) {
+                // 약간의 지연 후 클릭 이벤트 전달 (이미지 다운로드 메뉴가 나타나기 전에)
+                setTimeout(function() {
+                    const clickEvent = new MouseEvent('click', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    galleryItem.dispatchEvent(clickEvent);
+                }, 50);
+            } else {
+                // 길게 누른 경우 이벤트 차단
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                return false;
             }
         }, { passive: false });
         
@@ -419,7 +431,26 @@ function preventGalleryImageDownload() {
         img.style.webkitTouchCallout = 'none';
         img.style.webkitUserSelect = 'none';
         img.style.userSelect = 'none';
-        img.style.pointerEvents = 'none';
+        img.style.pointerEvents = 'auto';
+        
+        // 이미지 자체에서도 길게 누르기 방지
+        let imgTouchStartTime = 0;
+        img.addEventListener('touchstart', function(event) {
+            imgTouchStartTime = Date.now();
+            if (event.touches.length > 1) {
+                event.preventDefault();
+                return false;
+            }
+        }, { passive: false });
+        
+        img.addEventListener('touchend', function(event) {
+            const touchDuration = Date.now() - imgTouchStartTime;
+            if (touchDuration > 200) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        }, { passive: false });
     });
     
     // 갤러리 아이템 자체에도 이벤트 방지
