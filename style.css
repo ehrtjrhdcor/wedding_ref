@@ -1888,11 +1888,11 @@ h3.venue-name {
 
 
 .scene-1::before {
-    background-image: url("images/wedding_02.png");
+    background-image: url("images/wedding_01.png");
 }
 
 .scene-2::before {
-    background-image: url("images/wedding_03.png");
+    background-image: url("images/wedding_08.png");
 }
 
 .scene.show {
