@@ -2,7 +2,7 @@
 function checkPassword() {
     const input = document.getElementById('passwordInput');
     const error = document.getElementById('passwordError');
-    if (input.value === '0111') {
+    if (input.value === '231115') {
         const screen = document.getElementById('passwordScreen');
         screen.classList.add('fade-out');
         setTimeout(() => screen.remove(), 500);
