@@ -877,23 +877,23 @@ document.addEventListener('keydown', function(event) {
 // 지도 앱 열기
 function openKakaoMap() {
     // 실제 장소 좌표로 변경하세요
-    const placeName = '웨딩컨벤션';
+    const placeName = '루이비스컨벤션';
     const url = `https://map.kakao.com/link/search/${encodeURIComponent(placeName)}`;
     window.open(url, '_blank');
 }
 
 function openNaverMap() {
-    // 웨딩컨벤션
-    const placeName = '웨딩컨벤션';
-    const address = '주소위치';
+    // 루이비스컨벤션
+    const placeName = '루이비스컨벤션';
+    const address = '대전광역시 유성구 테크노2로';
     const url = `https://map.naver.com/v5/search/${encodeURIComponent(placeName)}`;
     window.open(url, '_blank');
 }
 
 function openTmap() {
     // 구글 지도로 변경 (티맵 대체)
-    const placeName = '웨딩컨벤션';
-    const address = '주소위치';
+    const placeName = '루이비스컨벤션';
+    const address = '대전광역시 유성구 테크노2로';
 
     // 구글 지도 검색 URL (모바일/PC 모두 작동)
     const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeName)}`;
@@ -901,10 +901,10 @@ function openTmap() {
 }
 
 function openKakaoNavi() {
-    // 순천아모르웨딩컨벤션 좌표
-    const placeName = '웨딩컨벤션';
-    const latitude = 34.982261;  // 위도
-    const longitude = 127.518579; // 경도
+    // 순천아모르루이비스컨벤션 좌표
+    const placeName = '루이비스컨벤션';
+    const latitude = 36.426393;  // 위도
+    const longitude = 127.397752; // 경도
     // 카카오내비 앱 스킴 (좌표로 목적지 설정)
     const kakaoNaviUrl = `kakaomap://route?ep=${latitude},${longitude}&by=CAR`;
 
@@ -1231,7 +1231,7 @@ function initNaverMap() {
         return;
     }
 
-    const weddingLocation = new naver.maps.LatLng(34.982261, 127.518579);
+    const weddingLocation = new naver.maps.LatLng(36.426393, 127.397752);
 
     // 지도 옵션
     const mapOptions = {
@@ -1250,14 +1250,14 @@ function initNaverMap() {
     const marker = new naver.maps.Marker({
         position: weddingLocation,
         map: map,
-        title: '웨딩컨벤션'
+        title: '루이비스컨벤션'
     });
 
     // 정보창 내용
     const contentString = [
         '<div style="padding:10px;min-width:200px;line-height:1.5;">',
-        '   <h4 style="margin:0 0 10px 0;font-size:16px;font-weight:bold;">웨딩컨벤션</h4>',
-        '   <p style="margin:0;font-size:13px;color:#666;">주소 위치</p>',
+        '   <h4 style="margin:0 0 10px 0;font-size:16px;font-weight:bold;">루이비스컨벤션</h4>',
+        '   <p style="margin:0;font-size:13px;color:#666;">대전광역시 유성구 테크노2로</p>',
         '   <p style="margin:5px 0 0 0;font-size:13px;color:#666;">Tel. 061-000-0000</p>',
         '</div>'
     ].join('');
@@ -1301,7 +1301,7 @@ function shareKakao() {
         objectType: 'feed',
         content: {
             title: '홍민준 ♡ 이수진 결혼식에 초대합니다.',
-            description: '2026년 1월 11일 일요일 오전 11시 \n웨딩컨벤션 1층 엘르홀',
+            description: '2026년 1월 11일 일요일 오전 11시 \n루이비스컨벤션',
             imageUrl: 'https://ehrtjrhdcor.github.io/wedding_ref/images/thumbnail.jpg',
             link: {
                 mobileWebUrl: 'https://ehrtjrhdcor.github.io/wedding_ref/',
