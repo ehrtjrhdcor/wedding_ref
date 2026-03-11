@@ -1,11 +1,3 @@
-/* 사진 블러 처리 (예시용) */
-.scene-img,
-.frame-3-photo,
-.gallery-item img,
-#modalImage {
-    filter: blur(8px);
-}
-
 /* 기본 스타일 */
 * {
     margin: 0;
@@ -1896,11 +1888,11 @@ h3.venue-name {
 
 
 .scene-1::before {
-    background-image: url("images/5.jpg");
+    background-image: url("images/wedding_02.png");
 }
 
 .scene-2::before {
-    background-image: url("images/6.jpg");
+    background-image: url("images/wedding_03.png");
 }
 
 .scene.show {

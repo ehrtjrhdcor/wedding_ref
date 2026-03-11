@@ -3,16 +3,16 @@ let currentImageIndex = 0;
 const totalImages = 9;
 
 const galleryImages = [
-    'images/4.jpg',
-    'images/10.jpg',
-    'images/11.jpg',
-    'images/45.jpg',
-    'images/22.jpg',
-    'images/24.jpg',
-    'images/32.jpg',
-    'images/26.jpg',
-    'images/17.jpg',
-    'images/999.jpg'
+    'images/wedding_04.png',
+    'images/wedding_05.png',
+    'images/wedding_06.png',
+    'images/wedding_07.png',
+    'images/wedding_08.png',
+    'images/wedding_09.png',
+    'images/wedding_10.png',
+    'images/wedding_11.png',
+    'images/wedding_12.png',
+    'images/wedding_01.png'
 ];
 
 let isMusicPlaying = false;
@@ -781,7 +781,6 @@ function preventImageCapture(modal, modalImg) {
             // 즉시 이미지를 숨기거나 블러 처리
             if (modalImg) {
                 modalImg.style.opacity = '0';
-                modalImg.style.filter = 'blur(20px)';
             }
             // 짧은 지연 후 모달 닫기
             setTimeout(function() {
@@ -791,7 +790,6 @@ function preventImageCapture(modal, modalImg) {
             // 다시 보일 때 이미지 복원
             if (modalImg) {
                 modalImg.style.opacity = '1';
-                modalImg.style.filter = 'none';
             }
         }
     };
@@ -801,7 +799,6 @@ function preventImageCapture(modal, modalImg) {
     const handleBlur = function() {
         if (modalImg) {
             modalImg.style.opacity = '0';
-            modalImg.style.filter = 'blur(20px)';
         }
         setTimeout(function() {
             closeModal();
@@ -813,16 +810,14 @@ function preventImageCapture(modal, modalImg) {
     const handleBeforeUnload = function() {
         if (modalImg) {
             modalImg.style.opacity = '0';
-            modalImg.style.filter = 'blur(20px)';
         }
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
-    
+
     // 페이지 숨김 감지 (iOS Safari 등)
     const handlePageHide = function() {
         if (modalImg) {
             modalImg.style.opacity = '0';
-            modalImg.style.filter = 'blur(20px)';
         }
         closeModal();
     };
