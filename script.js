@@ -877,23 +877,23 @@ document.addEventListener('keydown', function(event) {
 // 지도 앱 열기
 function openKakaoMap() {
     // 실제 장소 좌표로 변경하세요
-    const placeName = '순천아모르웨딩컨벤션';
+    const placeName = '웨딩컨벤션';
     const url = `https://map.kakao.com/link/search/${encodeURIComponent(placeName)}`;
     window.open(url, '_blank');
 }
 
 function openNaverMap() {
-    // 순천아모르웨딩컨벤션
-    const placeName = '순천아모르웨딩컨벤션';
-    const address = '전남 순천시 서면 압곡길 94';
+    // 웨딩컨벤션
+    const placeName = '웨딩컨벤션';
+    const address = '주소위치';
     const url = `https://map.naver.com/v5/search/${encodeURIComponent(placeName)}`;
     window.open(url, '_blank');
 }
 
 function openTmap() {
     // 구글 지도로 변경 (티맵 대체)
-    const placeName = '순천아모르웨딩컨벤션';
-    const address = '전남 순천시 서면 압곡길 94';
+    const placeName = '웨딩컨벤션';
+    const address = '주소위치';
 
     // 구글 지도 검색 URL (모바일/PC 모두 작동)
     const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeName)}`;
@@ -902,7 +902,7 @@ function openTmap() {
 
 function openKakaoNavi() {
     // 순천아모르웨딩컨벤션 좌표
-    const placeName = '순천아모르웨딩컨벤션';
+    const placeName = '웨딩컨벤션';
     const latitude = 34.982261;  // 위도
     const longitude = 127.518579; // 경도
     // 카카오내비 앱 스킴 (좌표로 목적지 설정)
@@ -1231,8 +1231,6 @@ function initNaverMap() {
         return;
     }
 
-    // 순천아모르웨딩컨벤션 좌표 (전남 순천시 서면 압곡길 94)
-    // 좌표: 위도(latitude), 경도(longitude) 순서
     const weddingLocation = new naver.maps.LatLng(34.982261, 127.518579);
 
     // 지도 옵션
@@ -1252,15 +1250,15 @@ function initNaverMap() {
     const marker = new naver.maps.Marker({
         position: weddingLocation,
         map: map,
-        title: '순천아모르웨딩컨벤션'
+        title: '웨딩컨벤션'
     });
 
     // 정보창 내용
     const contentString = [
         '<div style="padding:10px;min-width:200px;line-height:1.5;">',
-        '   <h4 style="margin:0 0 10px 0;font-size:16px;font-weight:bold;">순천아모르웨딩컨벤션</h4>',
-        '   <p style="margin:0;font-size:13px;color:#666;">전남 순천시 서면 압곡길 94</p>',
-        '   <p style="margin:5px 0 0 0;font-size:13px;color:#666;">Tel. 061-752-1000</p>',
+        '   <h4 style="margin:0 0 10px 0;font-size:16px;font-weight:bold;">웨딩컨벤션</h4>',
+        '   <p style="margin:0;font-size:13px;color:#666;">주소 위치</p>',
+        '   <p style="margin:5px 0 0 0;font-size:13px;color:#666;">Tel. 061-000-0000</p>',
         '</div>'
     ].join('');
 
@@ -1288,7 +1286,7 @@ function initNaverMap() {
 
 // Kakao SDK 초기화
 if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
-    Kakao.init('a23deef6d95570902f15e2c58fe9a3af');
+    Kakao.init('cb9f00e1310b29700c7a86842f1574dc');
     console.log('Kakao SDK 초기화 완료:', Kakao.isInitialized());
 }
 
@@ -1303,19 +1301,19 @@ function shareKakao() {
         objectType: 'feed',
         content: {
             title: '홍민준 ♡ 이수진 결혼식에 초대합니다.',
-            description: '2026년 1월 11일 일요일 오전 11시 \n순천아모르웨딩컨벤션 1층 엘르홀',
-            imageUrl: 'https://ehrtjrhdcor.github.io/wedding/images/thumbnail.jpg',
+            description: '2026년 1월 11일 일요일 오전 11시 \n웨딩컨벤션 1층 엘르홀',
+            imageUrl: 'https://ehrtjrhdcor.github.io/wedding_ref/images/thumbnail.jpg',
             link: {
-                mobileWebUrl: 'https://ehrtjrhdcor.github.io/wedding/',
-                webUrl: 'https://ehrtjrhdcor.github.io/wedding/',
+                mobileWebUrl: 'https://ehrtjrhdcor.github.io/wedding_ref/',
+                webUrl: 'https://ehrtjrhdcor.github.io/wedding_ref/',
             },
         },
         buttons: [
             {
                 title: '모바일 청첩장 보기',
                 link: {
-                    mobileWebUrl: 'https://ehrtjrhdcor.github.io/wedding/',
-                    webUrl: 'https://ehrtjrhdcor.github.io/wedding/',
+                    mobileWebUrl: 'https://ehrtjrhdcor.github.io/wedding_ref/',
+                    webUrl: 'https://ehrtjrhdcor.github.io/wedding_ref/',
                 },
             },
         ],
