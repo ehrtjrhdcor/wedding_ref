@@ -1258,7 +1258,7 @@ function initNaverMap() {
         '<div style="padding:10px;min-width:200px;line-height:1.5;">',
         '   <h4 style="margin:0 0 10px 0;font-size:16px;font-weight:bold;">루이비스컨벤션</h4>',
         '   <p style="margin:0;font-size:13px;color:#666;">대전광역시 유성구 테크노2로</p>',
-        '   <p style="margin:5px 0 0 0;font-size:13px;color:#666;">Tel. 061-000-0000</p>',
+        '   <p style="margin:5px 0 0 0;font-size:13px;color:#666;">Tel. 000-0000-0000</p>',
         '</div>'
     ].join('');
 
