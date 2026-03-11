@@ -1110,10 +1110,10 @@ function preloadImages() {
 window.addEventListener('load', preloadImages);
 
 // 사진 업로드 - 구글 폼으로 이동
-function openPhotoForm() {
-    const jotformUrl = 'https://form.jotform.com/253282846407058';
-    window.open(jotformUrl, '_blank');
-}
+// function openPhotoForm() {
+//     const jotformUrl = 'https://form.jotform.com/253282846407058';
+//     window.open(jotformUrl, '_blank');
+// }
 
 // 달력 생성
 function initCalendar() {
