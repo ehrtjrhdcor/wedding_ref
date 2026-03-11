@@ -1,3 +1,28 @@
+// 비밀번호 확인
+function checkPassword() {
+    const input = document.getElementById('passwordInput');
+    const error = document.getElementById('passwordError');
+    if (input.value === '0111') {
+        const screen = document.getElementById('passwordScreen');
+        screen.classList.add('fade-out');
+        setTimeout(() => screen.remove(), 500);
+    } else {
+        error.textContent = '비밀번호가 틀렸습니다';
+        input.value = '';
+        input.focus();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const pwInput = document.getElementById('passwordInput');
+    if (pwInput) {
+        pwInput.focus();
+        pwInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+    }
+});
+
 // 현재 이미지 인덱스
 let currentImageIndex = 0;
 const totalImages = 9;

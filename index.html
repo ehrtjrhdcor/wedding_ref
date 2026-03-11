@@ -46,6 +46,16 @@
     </script>
 </head>
 <body>
+    <!-- 비밀번호 화면 -->
+    <div id="passwordScreen">
+        <div class="password-box">
+            <p class="password-title">비밀번호를 입력해주세요</p>
+            <input type="password" id="passwordInput" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="••••" autocomplete="off">
+            <p class="password-error" id="passwordError"></p>
+            <button class="password-btn" onclick="checkPassword()">확인</button>
+        </div>
+    </div>
+
     <!-- theirmood 스타일 오프닝 레이어 -->
     <div id="opening">
         <div class="touch-prompt" id="touchPrompt">
