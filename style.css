@@ -1,3 +1,11 @@
+/* 사진 블러 처리 (예시용) */
+.scene-img,
+.frame-3-photo,
+.gallery-item img,
+#modalImage {
+    filter: blur(8px);
+}
+
 /* 비밀번호 화면 */
 #passwordScreen {
     position: fixed;
