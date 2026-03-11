@@ -901,7 +901,7 @@ function openTmap() {
 }
 
 function openKakaoNavi() {
-    // 순천아모르루이비스컨벤션 좌표
+    // 루이비스컨벤션 좌표
     const placeName = '루이비스컨벤션';
     const latitude = 36.426393;  // 위도
     const longitude = 127.397752; // 경도
